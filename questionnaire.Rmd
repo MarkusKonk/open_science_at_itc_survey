@@ -1,0 +1,591 @@
+---
+title: Needs and obstacles relating to Open Science at ITC - Results from an online questionnaire 
+journal: "`r rticles::copernicus_journal_abbreviations(journal_name = 'communication')`"
+author:
+  - given_name: Markus
+    surname: Konkol
+    affiliation: "1, *"
+    email: m.konkol@utwente.nl
+    corresponding: true
+affiliation:
+  - code: 1
+    address: ITC, University of Twente, Enschede, Netherlands
+abstract: |
+  Open Science (OS) is becoming increasingly important, but its success strongly depends on how well the barriers (e.g., knowledge gaps) are tackled. We conducted an online questionnaire to investigate which obstacles prevent ITC's researchers from adhering to OS principles and at which stage of the research cycle they need support. Based on the insights, we provide a list of recommendations to establish a transparent, verifiable, and reusable way of doing research. 
+bibliography: references.bib
+running:
+  title: Results of the Online Questionnaire
+  author: Konkol
+competinginterests: |
+  The author works as an Open Science Officer at ITC.
+copyrightstatement: |
+  The software is licensed under MIT, the report under CC-BY, and the dataset under CC0. 
+availability:
+  codedata: |
+    The data and the code are available under \href{https://github.com/MarkusKonk/open_science_at_itc_survey.git}{\color{blue}LINK}
+output:
+  rticles::copernicus_article: 
+    highlight: NULL
+    keep_tex: true
+  bookdown::pdf_book:
+    base_format: rticles::copernicus_article # for using bookdown features like \@ref()
+---
+
+```{r, echo=FALSE, results="hide", message=FALSE, comment=FALSE, warning=FALSE}
+library(plyr)
+library(likert)
+```
+
+```{r, echo=FALSE, results="hide", message=FALSE, comment=FALSE, warning=FALSE}
+data <- read.csv("data/raw_data_anonymised.csv", sep = ';')
+data <- data[data[6] != 'Other',] #Remove responses from people not affiliated with any of the six ITC departments, i.e., those who indicated 'other'.
+data <- data[data[1] != 27,] #Participant with the response ID 27 indicated that s/he is a senior lecturer and was thus excluded from the survey.
+
+#The following data contains the free text responses added by those who said that the corresponding obstacles prevents them from publishing openly.
+#These responses were analysed by extracting key statements, assigning them a code, and group them to higher-level themes.
+too_much_effort <- read.csv("data/too_much_effort.csv", sep = ';')
+sensitive_data <- read.csv("data/sensitive_data.csv", sep = ';')
+licensing <- read.csv("data/licensing.csv", sep = ';')
+commercial_software <- read.csv("data/commercial_software.csv", sep = ';')
+pressure_to_publish <- read.csv("data/pressure_to_publish.csv", sep = ';')
+dont_know_how <- read.csv("data/dont_know_how.csv", sep = ';')
+```
+
+# Introduction
+The Faculty of Geo-Information Science and Earth Observation (ITC) at the University of Twente in the Netherlands endorsed \href{https://doi.org/10.5281/zenodo.5113578}{\color{blue}{ITC’s Strategic Plan for Open Science 2021-2025 - Towards an Open Future}} [@konkol2021itc] as a starting point to establish faculty-wide Open Science (OS) practices. 
+Moreover, OS has become part of \href{https://www.itc.nl/about-itc/itc-mission-and-vision-2020-2030.pdf}{\color{blue}{ITC’s mission and vision}}.
+OS is an umbrella term covering several practices to make research more transparent, verifiable, and re-usable. 
+These practices comprise \textit{Open Scientific Knowledge} (incl. openly available scientific articles, data, software, hardware, and educational materials), \textit{OS Infrastructures} (incl. repositories and computational infrastructures), \textit{Open Engagement of Societal Actors} (incl. Citizen and Participatory Science), and \textit{Open Dialogue with other Knowledge Systems} (see \href{https://en.unesco.org/science-sustainable-future/open-science/recommendation}{\color{blue}{UNESCO's Recommendation on OS}} [@unesco] for a full definition). 
+The OS plan aims to assist ITC in realising an open research environment through five initiatives: 
+
+1. \textit{Open Science at ITC} is about developing guidelines and capacity building.
+2. \textit{The ITC Knowledge Hub} is about developing tools and installing services to facilitate OS.
+3. \textit{Open Educational Resources} is about exploring options to open up teaching materials.
+4. \textit{The Open Science Community Twente} is about providing a space to promote, learn, and discuss OS practices.
+5. \textit{Research and Funding} is about hiring staff to share responsibility and carry out user studies.
+
+This document is part of the first initiative \textit{Open Science at ITC}, which aims to train ITC researchers in OS practices and address the obstacles they encounter when doing OS.
+To achieve this aim, we approached the researchers of the six departments at ITC[^1] with an online survey to answer the following questions:
+
+[^1]: ITC's departments: Earth Observation Science ([EOS](https://www.itc.nl/about-itc/organization/scientific-departments/earth-observation-science/profile/)), Applied Earth Science ([AES](https://www.itc.nl/about-itc/organization/scientific-departments/earth-systems-analysis/)), Geo-Information Processing ([GIP](https://www.itc.nl/about-itc/organization/scientific-departments/geo-information-processing/)), Natural Resources ([NRS](https://www.itc.nl/about-itc/organization/scientific-departments/natural-resources/profile/)), The Urban and Regional Planning and Geo-information Management department ([PGM](https://www.itc.nl/about-itc/organization/scientific-departments/urban-regional-planning-geo-information-management/profile/)),
+Water Resources ([WRS](https://www.itc.nl/about-itc/organization/scientific-departments/water-resources/profile/))
+
+1. In which OS practices are researchers at ITC interested?
+
+2. Which obstacles prevent ITC researchers from doing OS?
+
+3. At which stage of the research process do ITC researchers need support relating to OS?
+
+The insights will be used to plan, prioritise, and carry out concrete activities to tackle barriers and fill knowledge gaps around OS.
+In the following chapters, we first report on the methodology and the results. 
+Afterwards, we discuss the findings and conclude by suggesting concrete activities to establish OS at ITC.
+
+# Methodology
+
+## Questionnaire
+
+First, the questionnaire provided a brief introduction of what OS means, who is addressed by the survey, and what its goals are.
+Then, the questionnaire collected background information from the participants, i.e., department, current research position (postdoc, assistant/associate/full professor, Ph.D. candidate employed at ITC or with a scholarship), and how many years they have spent in research so far. 
+Afterwards, the questionnaire asked for the participants' degree of agreement with the statement '\textit{I would like to learn more about...}' followed by a set of OS practices based on [UNESCO's Recommendation on OS](https://unesdoc.unesco.org/ark:/48223/pf0000374409) (e.g., Open Data, Open Code and Methods etc.)[^2] on a five-point Likert scale ranging from strongly disagree to strongly agree.
+Subsequently, participants gained a list of common obstacles relating to OS (e.g., \textit{It takes too much time}) and were asked to tick those that hinder them from doing OS. 
+If the participants ticked an obstacle, they optionally could provide a more detailed explanation as a free text. 
+Afterwards, we asked at which stage of the research process they need support in terms of OS (e.g., while \textit{processing and analysing data}).
+Finally, participants were given the opportunity to provide general comments. 
+The questionnaire was created using \href{https://www.limesurvey.org/de/}{\color{blue}{LimeSurvey}}, an open source online survey tool. 
+The final questionnaire is available in the supplements.
+
+The results were analysed with the help of descriptive statistics. 
+Free text answers were analysed using open coding. 
+We first extracted key statements from the comments, labelled them using codes, and finally categorised these codes to higher-level themes. 
+The survey was online from 30th April, 2021 until 11th August, 2021.
+
+[^2]: Note: The listed OS practices are aligned with the first draft of UNESCO's Recommendation on OS that was released in 2020. In 2021, an [updated version](https://en.unesco.org/science-sustainable-future/open-science/recommendation) has been published which includes slightly different terms. 
+
+## Participants
+
+The questionnaire was promoted via faculty-internal announcements (similar to a newsletter) and the \href{https://www.itc.nl/research/open-science/about/user-committee/}{\color{blue}{OS@ITC User Committee}} who forwarded the questionnaire to their departments. 
+Since the response rate was low during the first five weeks (~30 responses), we contacted researchers personally via an online messenger to remind them about the survey.
+
+To ensure anonymity, personal information on position and years in research are reported in an aggregated way and were removed from the dataset.
+In addition, free text answers were checked for details that might lead to the identification of the participant and replaced by higher-level descriptors, e.g., "\textit{[company]}" instead of the name of the company.
+
+```{r, echo=FALSE, results="hide", message=FALSE, comment=FALSE, warning=FALSE}
+#Data subset per department.
+eos <- data[data[6] == 'Earth Observation Science (EOS)',]
+esa <- data[data[6] == 'Earth Systems Analysis (ESA)',]
+gip <- data[data[6] == 'Geo-Information Processing (GIP)',]
+nrs <- data[data[6] == 'Natural Resources (NRS)',]
+pgm <- data[data[6] == 'Urban and Regional Planning and Geo-information Management (PGM)',]
+wrs <- data[data[6] == 'Water Resources (WRS)',]
+data <- data #Can be replaced by the subsets above. Note: only the figures and tables will change. The text still is based on the entire dataset.
+```
+
+We removed three participants from the dataset, two of them because they were not affiliated as researchers with one of the six departments and one because the participant was a lecturer.
+In total, `r nrow(data)` participants completed the survey, including `r nrow(eos)` from EOS, `r nrow(esa)` from AES, `r nrow(gip)` from GIP, `r nrow(nrs)` from NRS, `r nrow(pgm)` from PGM, and `r nrow(wrs)` from WRS. 
+The cohort was composed of 25 assistant professors, 20 Ph.D. candidates employed at ITC, 16 Ph.D. candidates with a scholarship, 10 associate professors, 11 postdocs, and 8 full professors. 
+On average, the participants have spent 6,5 years in research. 
+
+# Results
+
+This section summarises the results of the survey. The materials (data and source code) are available in the supplements.
+
+```{r, echo=FALSE, results="hide", message=FALSE, comment=FALSE, warning=FALSE}
+likertPlot = function(dataSet, questions, x, y, scale, ordered){
+  plotlevels <- scale
+  subset = dataSet[,x:y]
+
+  sapply(subset, class)
+  sapply(subset, function(x) { length(levels(x)) } )
+  
+  for(i in 1:ncol(subset)){
+    numAnswers=nrow(subset[which (subset[i]!=""),])
+    colnames(subset)[i] = paste(sep="", questions[i],"\n(", numAnswers, ")")
+  }
+  
+  for(i in seq_along(subset)) {
+    subset[,i] <- factor(subset[,i], levels=plotlevels)
+  }
+  
+  experimentdataset <- likert(subset)
+  if(ordered){
+    p=likert.bar.plot(experimentdataset, group.order = names(subset), 
+                      low.color="paleturquoise3", neutral.color = "snow3", high.color = "skyblue3")
+    p + theme(axis.text.y=element_text(size=6), legend.text=element_text(size=6), legend.title=element_text(size=6), panel.background = element_rect(fill = "grey95"))
+  }else{
+    p = likert.bar.plot(experimentdataset,
+                    low.color="paleturquoise3", neutral.color = "snow3", high.color = "skyblue3")
+    p + theme(axis.text.y=element_text(size=4), legend.text=element_text(size=5), legend.title=element_text(size=5), panel.background = element_rect(fill = "grey95"))
+  }
+}
+```
+
+## In which OS practices are researchers at ITC interested?
+
+From all OS practices (see Figure 1), researchers at ITC are mostly interested in Open Reproducible Research (80% agreed or strongly agreed), Open Data (78%), Open Educational Resources (78%), Open Code and Methods (77%), and Open Infrastructure (77%). 
+Also, Open Access and Preprints (72%), Open-Source Software and Hardware (72%), and Openness to Diversity and Inclusivity (72%) reached high ratings. 
+Around two-thirds would like to learn about Open Licenses (69%), Open Evaluation (e.g., \href{https://sfdora.org/}{\color{blue}{San Francisco Declaration on Research Assessment}}) (68%), and Citizen and Participatory Science (63%).
+Around half of the participants are interested in Open Peer Review (57%) and Pre-registration and Registered Reports (47%).
+
+Generally, there is little disinterest in OS practices. 
+Around one in ten are not interested in learning about Open Peer Review (11%), Open Access and Preprints (10%), Preregistration and Registered Reports (10%), Citizen and Participatory Science (9%), Open Evaluation (8%), and Openness to Diversity and Inclusivity (8%). 
+The remaining values range from 3% to 6%.
+
+The number of those who neither agree nor disagree differs substantially among the OS practices. 
+Pre-registration and Registered Reports have the highest score (43%) followed by Open Peer Review (32%), Citizen and Participatory Science (28%), and Open Licenses (26%). These high values might indicate knowledge gaps making it difficult for the participants to say whether the corresponding practice is important for them or not. 
+For the remaining OS practices, around one in five neither agrees nor disagrees.
+
+```{r, echo=FALSE, fig.cap="Degree of agreement to the statement: 'I would like to learn more about...' followed by the listed OS practices (90 respondents)."}
+questions <- c("Open Access/Preprints","Pre-registration/Registered Reports","Open Data", "Open Code/Methods", "Open Reproducible Research", "Open-Source Software/Hardware", "Open Infrastructures", "Open Peer Review", "Open Evaluation", "Open Educational Resources", "Citizen/Participatory Science", "Openness to Diversity/Inclusivity", "Open Licenses")
+agreement <- c("Strongly disagree", "Disagree", "Neither agree nor disagree", "Agree", "Strongly agree")
+likertPlot(data, questions, 8, 20, agreement, TRUE)
+# Per department
+# likertPlot(eos, questions, 8, 20, agreement, TRUE)
+# likertPlot(esa, questions, 8, 20, agreement, TRUE)
+# likertPlot(gip, questions, 8, 20, agreement, TRUE)
+# likertPlot(nrs, questions, 8, 20, agreement, TRUE)
+# likertPlot(pgm, questions, 8, 20, agreement, TRUE)
+# likertPlot(wrs, questions, 8, 20, agreement, TRUE)
+
+```
+
+## Which obstacles prevent ITC researchers from doing OS?
+```{r, echo=FALSE, results="hide", message=FALSE, comment=FALSE, warning=FALSE}
+#Free text answers
+tooMuchEffort <- data[data[22]!='',22]
+tooMuchEffort
+toolsAreMissing <- data[data[24]!='',24] # there are two responses saying Object Based Image Analysis. Check if these might be the same!
+toolsAreMissing
+notYetRelevant <- data[data[26]!='',26]
+notYetRelevant
+commercialSoftware <- data[data[28]!='',28] # there are two responses saying "Pix4D, Matlab". Check if these might be the same!
+commercialSoftware
+sensitiveData <- data[data[30]!='',30]
+sensitiveData
+pressureToPublish <- data[data[32]!='',32]
+pressureToPublish
+othersWillNotNeedTheMaterials <- data[data[34]!='',34]
+othersWillNotNeedTheMaterials
+competitiveAdvantage <- data[data[36]!='',36]
+competitiveAdvantage
+cooperationWithCompany <- data[data[38]!='',38]
+cooperationWithCompany
+lackOfFunding <- data[data[40]!='',40]
+lackOfFunding
+dontKnowHow <- data[data[42]!='',42]
+dontKnowHow
+licenses <- data[data[44]!='',44]
+licenses 
+whereToPublish <- data[data[46]!='',46]
+whereToPublish
+misinterpretation <- data[data[48]!='',48]
+misinterpretation
+misuse <- data[data[50]!='',50]
+misuse
+copyright <- data[data[52]!='',52]
+copyright
+other1 <- data[data[53]!='',53]
+other1
+other2 <- data[data[54]!='',54]
+other2
+```
+
+Table 1 shows how many participants (overall and per department[^3]) face the corresponding obstacle when doing OS, ordered by the overall occurrence.
+In total, the participants ticked the 16 obstacles 235 times (2,6 obstacles per participant). 
+In the following, we complement the numbers from the table with the written statements made by the participants. 
+
+[^3]: Note: The differentiation by department is not meant for blaming, but to prioritise activities and provide custom-tailored support and advise.
+
+\begin{table}
+\caption{Number of participants (overall and per department) facing the corresponding obstacle when doing OS, ordered by occurrence.}
+\begin{tabular}{p{9cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm}} 
+\textbf{Obstacles} & \textbf{All} & \textbf{EOS} & \textbf{AES} & \textbf{GIP} & \textbf{NRS} & \textbf{PGM} & \textbf{WRS} \\
+\hline
+1) It takes too much time and work & `r nrow(data[data[21]=='Yes',])` & `r nrow(eos[eos[21]=='Yes',])` & `r nrow(esa[esa[21]=='Yes',])` & `r nrow(gip[gip[21]=='Yes',])` & `r nrow(nrs[nrs[21]=='Yes',])` & `r nrow(pgm[pgm[21]=='Yes',])` & `r nrow(wrs[wrs[21]=='Yes',])` \\
+\hline
+2) I work with sensitive data & `r nrow(data[data[29]=='Yes',])` & `r nrow(eos[eos[29]=='Yes',])` & `r nrow(esa[esa[29]=='Yes',])` & `r nrow(gip[gip[29]=='Yes',])` & `r nrow(nrs[nrs[29]=='Yes',])` & `r nrow(pgm[pgm[29]=='Yes',])` & `r nrow(wrs[wrs[29]=='Yes',])` \\
+\hline
+3) I do not know how to license data and code & `r nrow(data[data[43]=='Yes',])` & `r nrow(eos[eos[43]=='Yes',])` & `r nrow(esa[esa[43]=='Yes',])` & `r nrow(gip[gip[43]=='Yes',])` & `r nrow(nrs[nrs[43]=='Yes',])` & `r nrow(pgm[pgm[43]=='Yes',])` & `r nrow(wrs[wrs[43]=='Yes',])` \\
+\hline
+4) I use commercial software & `r nrow(data[data[27]=='Yes',])` & `r nrow(eos[eos[27]=='Yes',])` & `r nrow(esa[esa[27]=='Yes',])` & `r nrow(gip[gip[27]=='Yes',])` & `r nrow(nrs[nrs[27]=='Yes',])` & `r nrow(pgm[pgm[27]=='Yes',])` & `r nrow(wrs[wrs[27]=='Yes',])` \\
+\hline
+5) The pressure to publish & `r nrow(data[data[31]=='Yes',])` & `r nrow(eos[eos[31]=='Yes',])` & `r nrow(esa[esa[31]=='Yes',])` & `r nrow(gip[gip[31]=='Yes',])` & `r nrow(nrs[nrs[31]=='Yes',])` & `r nrow(pgm[pgm[31]=='Yes',])` & `r nrow(wrs[wrs[31]=='Yes',])` \\
+\hline
+6) Lack of funding & `r nrow(data[data[39]=='Yes',])` & `r nrow(eos[eos[39]=='Yes',])` & `r nrow(esa[esa[39]=='Yes',])` & `r nrow(gip[gip[39]=='Yes',])` & `r nrow(nrs[nrs[39]=='Yes',])` & `r nrow(pgm[pgm[39]=='Yes',])` & `r nrow(wrs[wrs[39]=='Yes',])` \\
+\hline
+7) I do not know how & `r nrow(data[data[41]=='Yes',])` & `r nrow(eos[eos[41]=='Yes',])` & `r nrow(esa[esa[41]=='Yes',])` & `r nrow(gip[gip[41]=='Yes',])` & `r nrow(nrs[nrs[41]=='Yes',])` & `r nrow(pgm[pgm[41]=='Yes',])` & `r nrow(wrs[wrs[41]=='Yes',])` \\
+\hline
+8) The company/institution I am working with does not allow sharing & `r nrow(data[data[37]=='Yes',])` & `r nrow(eos[eos[37]=='Yes',])` & `r nrow(esa[esa[37]=='Yes',])` & `r nrow(gip[gip[37]=='Yes',])` & `r nrow(nrs[nrs[37]=='Yes',])` & `r nrow(pgm[pgm[37]=='Yes',])` & `r nrow(wrs[wrs[37]=='Yes',])` \\
+\hline
+9) My materials may be misinterpreted & `r nrow(data[data[47]=='Yes',])` & `r nrow(eos[eos[47]=='Yes',])` & `r nrow(esa[esa[47]=='Yes',])` & `r nrow(gip[gip[47]=='Yes',])` & `r nrow(nrs[nrs[47]=='Yes',])` & `r nrow(pgm[pgm[47]=='Yes',])` & `r nrow(wrs[wrs[47]=='Yes',])` \\
+\hline
+10) It was not yet relevant & `r nrow(data[data[25]=='Yes',])` & `r nrow(eos[eos[25]=='Yes',])` & `r nrow(esa[esa[25]=='Yes',])` & `r nrow(gip[gip[25]=='Yes',])` & `r nrow(nrs[nrs[25]=='Yes',])` & `r nrow(pgm[pgm[25]=='Yes',])` & `r nrow(wrs[wrs[25]=='Yes',])` \\
+\hline
+11) I do not want to lose my competitive advantage & `r nrow(data[data[35]=='Yes',])` & `r nrow(eos[eos[35]=='Yes',])` & `r nrow(esa[esa[35]=='Yes',])` & `r nrow(gip[gip[35]=='Yes',])` & `r nrow(nrs[nrs[35]=='Yes',])` & `r nrow(pgm[pgm[35]=='Yes',])` & `r nrow(wrs[wrs[35]=='Yes',])` \\
+\hline
+12) I do not think that others will need the materials & `r nrow(data[data[33]=='Yes',])` & `r nrow(eos[eos[33]=='Yes',])` & `r nrow(esa[esa[33]=='Yes',])` & `r nrow(gip[gip[33]=='Yes',])` & `r nrow(nrs[nrs[33]=='Yes',])` & `r nrow(pgm[pgm[33]=='Yes',])` & `r nrow(wrs[wrs[33]=='Yes',])` \\
+\hline
+13) Because of copyright concerns & `r nrow(data[data[51]=='Yes',])` & `r nrow(eos[eos[51]=='Yes',])` & `r nrow(esa[esa[51]=='Yes',])` & `r nrow(gip[gip[51]=='Yes',])` & `r nrow(nrs[nrs[51]=='Yes',])` & `r nrow(pgm[pgm[51]=='Yes',])` & `r nrow(wrs[wrs[51]=='Yes',])` \\
+\hline
+14) I do not know where to publish my materials & `r nrow(data[data[45]=='Yes',])` & `r nrow(eos[eos[45]=='Yes',])` & `r nrow(esa[esa[45]=='Yes',])` & `r nrow(gip[gip[45]=='Yes',])` & `r nrow(nrs[nrs[45]=='Yes',])` & `r nrow(pgm[pgm[45]=='Yes',])` & `r nrow(wrs[wrs[45]=='Yes',])` \\
+\hline
+15) My materials may be misused & `r nrow(data[data[49]=='Yes',])` & `r nrow(eos[eos[49]=='Yes',])` & `r nrow(esa[esa[49]=='Yes',])` & `r nrow(gip[gip[49]=='Yes',])` & `r nrow(nrs[nrs[49]=='Yes',])` & `r nrow(pgm[pgm[49]=='Yes',])` & `r nrow(wrs[wrs[49]=='Yes',])` \\
+\hline
+16) The tools are missing & `r nrow(data[data[23]=='Yes',])` & `r nrow(eos[eos[23]=='Yes',])` & `r nrow(esa[esa[23]=='Yes',])` & `r nrow(gip[gip[23]=='Yes',])` & `r nrow(nrs[nrs[23]=='Yes',])` & `r nrow(pgm[pgm[23]=='Yes',])` & `r nrow(wrs[wrs[23]=='Yes',])` \\
+\hline
+Sum & `r 25+40+45+48+44+33` & 25 & 40 & 45 & 48 & 44 & 33 \\
+\hline
+\end{tabular}
+\label{table:1}
+\end{table}
+
+\textit{\textbf{Effort}}:
+For most participants, OS takes too much time and work (31 ticked this obstacle). 
+This issue seems to emerge consistently across departments.
+Most of the participants' comments referred to reproducible research (13 participants made a statement that falls under this category), e.g., rewriting source code to facilitate understanding and reuse.
+Several statements fall under the category FAIR and open data (10), such as documentation and converting closed to open data formats.
+Another set of statements referred to rewards and recognition (6). 
+One participant stated: 
+
+> \textit{"Once a paper is finally published, there are so many other tasks that prevent from taking time and storing data."} 
+
+Another participant addressed the research cycle: 
+
+> \textit{"It needs to be taken more explicitly into account at the beginning. Now it is often an overlooked after-burner."} 
+
+Extra effort is also an issue when it comes to finding and learning new open source software to replace familiar but commercial tools (2).
+One participant referred to open educational resources, saying that it takes time to get the permission from the directorate to publish open courseware.
+
+\textit{\textbf{Sensitive data}}: 
+The work with sensitive data is another often-ticked barrier (26), particularly in the PGM (8), AES (6), and GIP (5) department.
+The participants named three reasons: 
+Predominantly, privacy and ethics regulations prevent researchers from sharing data (18).
+Furthermore, the data provider sometimes restricts data sharing (4), but also collaborators (e.g., partners, companies) do so (3).
+One participant stated: 
+
+> \textit{"Sometimes I work with secondary data from partners who do not want their data to be made available."}
+
+\textit{\textbf{Licensing}}: A further issue is not knowing how to license data and code (24), which is predominantly an issue at GIP (7), PGM (7), and NRS (4).
+The comments show a lack of understanding and doubts whether licenses are relevant: 
+
+> \textit{"What I know I have learned from practice, but it is not sufficient, and sometimes also confusing."}  
+
+> \textit{"I do not think this is necessary in my case. I share my code to people who need it."}
+
+One participant struggles with licenses when it comes to determining whether someone else's work can be reused.
+
+\textit{\textbf{Commercial software}}:
+Many respondents make use of commercial software (23), particularly at AES (6), PGM (5), and NRS (4).
+Most participants use a commercial programming software, i.e., MATLAB (5) and IDL (5).
+Furthermore, ESRI software (9) for GIS purposes and ERDAS (6) for remote sensing analyses are popular tools.
+Envi (4) is used as an image processing and analysis tool, eCognition (3) for image analysis and Pix4D (3) for photogrammetry. 
+Further tools in use are AtlasTI (1) for the analysis of qualitative data, Maptionnaire (1) for creating map-based surveys, Office Timeline Pro (1) for project management, SPSS (1) for statistics, Google Earth Engine (1) for geospatial processing services, HoloLens 2 (1) for augmemnted reality applications, and Visual Studio (1) as an interactive programming environment.
+
+\textit{\textbf{Pressure to publish}}: 
+The pressure to publish is a crucial issue (22), mostly at NRS (7) and WRS (6).
+Most comments referred to missing rewards and recognition (7), resulting in missing incentives to invest effort in OS practices. 
+One participant stated: 
+
+> \textit{"Most time is spent to get an accepted publication out, rather than a published accompanying dataset or code."} 
+
+The journal impact factor plays a role as well: 
+
+> \textit{"Unfortunately, most of the journals with higher impact factor (required for project acquisition and other achievements) are not open access yet."}
+
+The statements also revealed an interesting range of mindsets. 
+While one participant \textit{"open[s] repos only after the acceptance of the paper"}, another stated: 
+
+> \textit{"It is a very bad idea to ask the ongoing PhD students to share and publish their research data."}
+
+Unfortunately, the person making the latter statement missed to provide an elaborated answer and concrete arguments.
+
+\textit{\textbf{Lack of funding}}: 
+Missing funding was ticked 14 times.
+Most of the comments refer to Open Access (4), which requires funding. 
+However, from the comments it was not always clear whether the participants referred to costs relating to article processing charges or releasing data and code: 
+
+> \textit{"When publishing parallel work, the lack of funding prevents me from publishing open access."}
+
+Two participants see OS as an extra activity that is not part of the actual research and thus requires extra funding: 
+
+> \textit{"OS may require funding support for extra activities that are not normally included during a PhD."}
+
+\textit{\textbf{Lack of knowledge}}:
+Missing knowledge was ticked 14 times, mostly people from NRS (4) and GIP (4).
+The comments did not reveal concrete knowledge gaps but rather a general lack of awareness of OS practices (6). 
+For instance, one participant has not much experience with sharing data, and another one is not familiar with sharing reproducible code.
+
+\textit{\textbf{Restrictions by the company/institution}}:
+13 participants indicated that cooperating with companies or institutions that do not allow data sharing is an obstacle.
+This issue occurs consistently across departments, except PGM.
+From those who commented, five participants worked with a company that restricted sharing, two with a research unit, and one with an unspecified organisation. 
+One participant stated: 
+
+> \textit{"I have industry partners in my research who want to commercialize the results or to keep the data."}
+
+Apparently, there is a trade-off between adhering to OS principles and learning commercial software needed in industry as one participant stated:
+
+> \textit{"This was the case when I worked with the industry, there I acquired most of my skills which are based on licences."}
+
+\textit{\textbf{Misinterpretation of materials}}:
+11 out of 90 fear their materials might be misinterpreted, most coming from PGM (4). 
+An essential issue relates to the context of qualitative data (e.g., space, time, personal/environmental circumstances), which was mentioned two times. 
+One participant stated: 
+
+> \textit{"This is a major concern for the qualitative data that I am collecting. People who are not familiar with the context will not be able to interpret it well."}
+
+\textit{\textbf{Not yet relevant}}:
+It was not yet relevant say ten participants (PGM (4), AES (3)). 
+For two participants, it was not yet relevant since they were not aware of OS practices: 
+
+> \textit{"The issue of OS has been very raised recently - at least to my knowledge - I don't feel familiar with many aspects."}
+
+According to one participant, the software is too specific and was developed for a unique case.
+Finally, for one participant it was not yet relevant due to missing rewards and recognition.
+
+\textit{\textbf{Competitive advantage}}:
+The fear of losing the competitive advantage is an obstacle for ten participants. 
+For one participant, this is especially relevant if big data is involved.
+Another participant uses embargo periods to mitigate this threat.
+One participant stated: 
+
+> \textit{"There is usually a little bit of this (old-fashioned) sentiment."}
+
+\textit{\textbf{Remaining obstacles}}:
+Nine participants think others will not need the materials, since the code is not understandable or the data too specific: 
+
+> \textit{"This is exaggerated but I don't even understand my own code, hard to imagine it can be of use for others."}  
+
+> \textit{"I am unsure how far the data I collect is relevant for other studies. It is quite time and place specific."} 
+
+Eight respondents have concerns regarding copyright. 
+This issue applies to teaching but also in a more general setting:
+
+> \textit{"Some of my teaching materials may contain copyrighted materials/contributions from previous lecturers and may not be readily shared."}
+
+> \textit{"Maybe I use others' open code and they have specific requirements for re-share the code."}
+
+Eight participants do not know where to publish the materials, including a limited understanding of data repositories like DANS.
+Seven fear their materials might be misused. 
+Two participants commented that open data can result in negative implications for their participants: 
+
+> \textit{"Some of the data we collected despite not being personal it can be used and have negative consequences for the participants who trusted us."} 
+
+Finally, five participants criticize the lack of tools, which is mainly an issue for researchers at AES (4): 
+
+> \textit{"Not everything is available open or can be developed that easily, as generic functions are usually available as OSS [=open source software] but very task specific ones not."}
+
+## At which stage of the research process do ITC researchers need support relating to OS?
+
+Table 2 shows how many participants (overall and per department) need OS support at different stages of the research cycle. 
+Overall, the listed research stages were ticked 293 times (3,3 ticked research stages per participant).
+38 out of 90 participants require OS support while preparing a data management plan for funding that adheres to OS principles. 
+Most of them come from PGM (11) followed by AES (7) and WRS (6).
+Pre-registering a study or writing a registered report was ticked by 26.
+OS support during data collection is needed by 20 participants, most coming from GIP (5) and PGM (5).
+The lowest amount of participants need OS support when (pre-)processing and analysing data (17), including five from GIP and five from PGM.
+A large number of participants need OS support during the storing and long-term preservation of data and results (45), and when choosing a license for their materials (44).
+OS support while publishing preprints is needed by 25 participants and while publishing articles by 21 participants.
+37 participants need OS support when publishing the materials underlying the results (i.e., data and code) and 20 participants while re-using others' work.
+
+\begin{table}
+\caption{Number of participants (overall and per department) thinking that they need OS support during the corresponding stage of the research process.}
+\begin{tabular}{p{9cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm} | p{0.6cm}} 
+\textbf{Research stage} & \textbf{All} & \textbf{EOS} & \textbf{AES} & \textbf{GIP} & \textbf{NRS} & \textbf{PGM} & \textbf{WRS} \\
+  \hline 
+  Preparing a data management plan for funding that adheres to OS principles &  `r nrow(data[data[55]=='Yes',])` & `r nrow(eos[eos[55]=='Yes',])` & `r nrow(esa[esa[55]=='Yes',])` & `r nrow(gip[gip[55]=='Yes',])` & `r nrow(nrs[nrs[55]=='Yes',])` & `r nrow(pgm[pgm[55]=='Yes',])` & `r nrow(wrs[wrs[55]=='Yes',])` \\ 
+  \hline
+  Preregistering a study/Writing a registered report & `r nrow(data[data[56]=='Yes',])` & `r nrow(eos[eos[56]=='Yes',])` & `r nrow(esa[esa[56]=='Yes',])` & `r nrow(gip[gip[56]=='Yes',])` & `r nrow(nrs[nrs[56]=='Yes',])` & `r nrow(pgm[pgm[56]=='Yes',])` & `r nrow(wrs[wrs[56]=='Yes',])` \\ 
+  \hline
+  Collecting data & `r nrow(data[data[57]=='Yes',])` & `r nrow(eos[eos[57]=='Yes',])` & `r nrow(esa[esa[57]=='Yes',])` & `r nrow(gip[gip[57]=='Yes',])` & `r nrow(nrs[nrs[57]=='Yes',])` & `r nrow(pgm[pgm[57]=='Yes',])` & `r nrow(wrs[wrs[57]=='Yes',])` \\ 
+  \hline
+  (Pre-) Processing and analysing data & `r nrow(data[data[58]=='Yes',])` & `r nrow(eos[eos[58]=='Yes',])` & `r nrow(esa[esa[58]=='Yes',])` & `r nrow(gip[gip[58]=='Yes',])` & `r nrow(nrs[nrs[58]=='Yes',])` & `r nrow(pgm[pgm[58]=='Yes',])` & `r nrow(wrs[wrs[58]=='Yes',])` \\
+  \hline
+  Storing and long-term preservation of data and results & `r nrow(data[data[59]=='Yes',])` & `r nrow(eos[eos[59]=='Yes',])` & `r nrow(esa[esa[59]=='Yes',])` & `r nrow(gip[gip[59]=='Yes',])` & `r nrow(nrs[nrs[59]=='Yes',])` & `r nrow(pgm[pgm[59]=='Yes',])` & `r nrow(wrs[wrs[59]=='Yes',])` \\
+  \hline
+  Choosing a license for data/software/papers & `r nrow(data[data[60]=='Yes',])` & `r nrow(eos[eos[60]=='Yes',])` & `r nrow(esa[esa[60]=='Yes',])` & `r nrow(gip[gip[60]=='Yes',])` & `r nrow(nrs[nrs[60]=='Yes',])` & `r nrow(pgm[pgm[60]=='Yes',])` & `r nrow(wrs[wrs[60]=='Yes',])` \\
+  \hline
+  Publishing preprints & `r nrow(data[data[61]=='Yes',])` & `r nrow(eos[eos[61]=='Yes',])` & `r nrow(esa[esa[61]=='Yes',])` & `r nrow(gip[gip[61]=='Yes',])` & `r nrow(nrs[nrs[61]=='Yes',])` & `r nrow(pgm[pgm[61]=='Yes',])` & `r nrow(wrs[wrs[61]=='Yes',])` \\
+  \hline
+  Publishing the materials underlying the results (i.e., data and code) & `r nrow(data[data[62]=='Yes',])` & `r nrow(eos[eos[62]=='Yes',])` & `r nrow(esa[esa[62]=='Yes',])` & `r nrow(gip[gip[62]=='Yes',])` & `r nrow(nrs[nrs[62]=='Yes',])` & `r nrow(pgm[pgm[62]=='Yes',])` & `r nrow(wrs[wrs[62]=='Yes',])` \\
+  \hline
+  Publishing articles & `r nrow(data[data[63]=='Yes',])` & `r nrow(eos[eos[63]=='Yes',])` & `r nrow(esa[esa[63]=='Yes',])` & `r nrow(gip[gip[63]=='Yes',])` & `r nrow(nrs[nrs[63]=='Yes',])` & `r nrow(pgm[pgm[63]=='Yes',])` & `r nrow(wrs[wrs[63]=='Yes',])` \\
+  \hline
+  Reusing others’ work & `r nrow(data[data[64]=='Yes',])` & `r nrow(eos[eos[64]=='Yes',])` & `r nrow(esa[esa[64]=='Yes',])` & `r nrow(gip[gip[64]=='Yes',])` & `r nrow(nrs[nrs[64]=='Yes',])` & `r nrow(pgm[pgm[64]=='Yes',])` & `r nrow(wrs[wrs[64]=='Yes',])` \\
+  \hline
+  Sum & `r 40+51+52+42+65+43` & 40 & 51 & 52 & 42 & 65 & 43 \\
+  \hline
+\end{tabular}
+\label{table:2}
+\end{table}
+
+```{r, echo=FALSE}
+finalComments <- data[data[66]!='',66]
+#finalComments
+```
+
+# Discussion
+
+Overall, the results reveal a conflict: 
+On the one hand, researchers at ITC have a positive stance on OS and are keen to learn more about open practices.
+On the other hand, there are a number of obstacles that prevent researchers from adhering to OS principles. 
+The main reason is that OS takes too much time and work.
+One might argue that time is just another word for priority, and the priority of researchers is to publish scientific articles, as reflected in another top obstacle ("the pressure to publish").
+The pressure to publish mainly stems from the current rewards and recognition system.
+Hiring, promotion, and tenure decisions are often based quantitative metrics, such as the Journal Impact Factor or the h-index.
+These metrics provide 'perverse' incentives that focus solely on scientific articles and do not consider the number of published open datasets or code repositories [@bouter2020research].
+All that counts are the number of published articles, in which journals these papers were published, and how often they were cited.
+For that reason, several researchers indicated that OS practices were "not yet relevant".
+Per Seglen argued already in 1997 that the impact factor should not be used for evaluating research [@seglen1997impact].
+Nature stated in an editorial that it is time to remodel the journal factor [@natureedit2016]. 
+Others used some martial words and speak about the slavery of the h-index as a means to measure the unmeasureable [@Kreiner_2016].
+And even the developer of the h-index, Jorge Hirsch, stated that the h-index can fail spectacularly and have severe unintended negative consequences [@conroy2020s].
+The rewards and recognition system was also a recurring element in the comments made by the participants.
+
+Consequently, researchers often do not see OS as part of their daily work.
+Instead, several researchers tend to regard OS as \textit{"something additional"} that is not part of their work but happening on top of the \textit{"actual research"}.
+Several free text statements confirm this impression (\textit{"extra funding for extra tasks"}).
+Hence, OS has a lower priority for some researchers (\textit{"there are usually so many other tasks"}) although some recognise that OS should actually be part of the research cycle from the beginning to avoid an \textit{"overlooked after-burner"}.
+
+Nevertheless, some of the numbers might be explained by a lack of awareness.
+Not knowing how to adhere to OS principles seems to be a practical issue but it also shows that this knowledge gap was not yet a problem.
+Apparently, researchers do not necessarily fail and can still succeed (publish papers, collect funding, become hired) without following OS principles.
+However, current developments show that this form of practising research will not sustain: Reviewers start asking for access to the materials [@stark2018before]; More funders list OS as a relevant criterion for granting money; and more universities as well as governments have put OS on their agenda.
+
+Several researchers have the impression to work in a competitive environment and thus do not want to lose their competitive advantage by publishing their research materials.
+Others cooperate with a company that does not allow sharing.
+It is questionable whether a university is the right place for competition.
+Instead, collaborations are certainly more desireable and should be pursued.
+Still, we cannot expect researchers to negotiate OS practices with their industry partners. 
+Finding these partners can be challenging and for understandable reasons researchers (especially early career researchers) are reluctant to insist in realising OS practices throughout the research project. 
+They might be worried that they discourage the company or raise a conflict, which might block alternative career paths.
+One possibility to mitigate this issue is to develop university-wide policies that need to be part of the agreement between researchers and their industry partners. 
+Such policies can put the university in a stronger position targeting at least a compromise in which not all but some materials are released openly. 
+The degree of openness might depend on who is paying how much for the research project. 
+Companies can make their own rules if they pay for the research, but in case of a public funder the guideline is \textit{publicly funded research should become a public good}.
+It might also be worth to make companies aware of the benefits of OS, e.g., increased visibility, collaboration opportunities, and open source-based business models.
+
+Another concern of researchers is that the research materials might be misused and misinterpreted. 
+These arguments alone can be used as knock-out arguments.
+It is always possible to say that the materials may be misused and misinterpreted. 
+It is up for discussion if a deviating interpretation is a misinterpretation caused by the lack of contextual information or rather a differing viewpoint by someone who is less immersed in the data and the context and thus more objective.
+Furthermore, not being able to interpret data raises concerns regarding the verifiability of the outcomes. 
+Still, if these arguments are justified appropriately, they can be legitimate reasons to hide materials.
+
+A critical issue in OS is the use of commercial and open-source software. 
+The number of open-source software is large and covers a broad range of topics and functionality. 
+However, many researchers tend to use the tools they are familiar with or that have a more intuitive user interface.
+Switching to open source software is in several cases rather easy, particularly when it comes to programming languages. 
+For example, MATLAB and SPSS can be replaced by R or python, and ESRI's ArcGIS can be easily replaced by QGIS.
+SPSS might have a more efficient user interface that makes statistics easier but it remains a black box. 
+In other cases, switching is rather difficult.
+For instance, besides some tools under development (e.g., RQDA), there is not yet a fully functioning and easy-to-use tool for qualitative analyses.
+
+A key goal of ITC is to help students develop capacity. 
+On the one hand, following OS principles would mean to promote the use of open-source software, e.g., QGIS.
+On the other hand, students should develop a broad range of skills, which might include proprietary software that is commonly used in industry and a pre-requisite for many jobs (e.g., ESRI software).
+While in such cases a fully trained GIS student should be able to switch between different GIS software easily, this might not hold true for other software.
+
+Several participants state that others will not need the materials.
+One might ask the provoking question whether the research that is based on materials that others cannot reuse is valuable at all. 
+Fortunately, in most cases, the researchers probably just underestimate how useful and relevant their materials are. 
+Sharing them is thus always helpful and needed to ensure transparent, verifiable, and reusable research results.
+
+# Conclusion
+
+ITC has a positive stance on OS but there are a number of obstacles that prevent researchers form adhering to OS principles.
+To mitigate these barriers, we suggest the following activities.
+
+\textbf{1. Reward participation in OS training courses}
+
+Students, Ph.D. candidates, and researchers have a full agenda, which is why many will not attend OS courses that are not rewarded.
+Hence, OS training courses should become part of students' curricular, Ph.D. candidates' graduate school, and researchers' teaching qualification.
+Attending an OS course might even become a requirement for tenure and promotion.
+Such rewarded courses provide a concrete incentive to learn about OS and foster the culture change towards an open research environment.
+
+\textbf{2. Change the rewards and recognition system}
+
+The success of OS strongly depends on a rewards and recognition system that incentivises it.
+This change cannot be achieved by researchers alone but needs to be an international effort.
+An important step is joining \href{https://ec.europa.eu/info/news/process-towards-agreement-reforming-research-assessment-2022-jan-18_en}{\color{blue}{EU's process towards an agreement on reforming research assessment}}.
+Further efforts can be carried out in parallel, such as considering OS principles in \href{https://www.nicebread.de/open-science-hiring-practices/}{\color{blue}{hiring decisions}}.
+
+\textbf{3. Develop faculty-wide guidelines and policies}
+
+Faculty-wide (or even university-wide) guidelines and policies are needed to make sure that OS becomes part of a researchers daily work.
+Nowadays, OS is often seen as an extra task, but not following OS principles is a shortcut and against good scientific practice.
+Such guidelines and policies can address the cooperation between researchers and companies and the need to provide legitimate reasons for hiding research materials. 
+The overall guideline should be \textit{as open as possible, as closed as necessary}, requiring materials to be open by default and closed only where legitimate reasons apply.
+
+\textbf{4. Consider OS practices early in the research process}
+
+The impression that OS is labour-intensive is also caused by its consideration at the very end of the research process when deadlines are close and time is scarse.
+Hence, tasks such as rewriting source code to make it better understandable, documentation, and converting closed to open data formats become an "overlooked after-burner".
+This issue can be avoided by considering OS principles and best practices from the beginning.
+One opportunity is to make OS practices part of data management plans.
+Another possibility is to add OS-related aspects to the ethical approval process, where researchers need to think their research plan through anyway.  
+Making (future) researchers aware of open practices early in their career and research process will also flatten the learning curve in the next projects.
+
+\textbf{5. Provide OS services}
+
+Researchers should have access to support services that reduce the effort, close knowledge gaps, suggest open practices (e.g., open-source instead of closed software or open instead of closed data formats), propose best practices to improve messy code and the quality of documentation, and help with licensing. 
+Another service might be \href{https://www.itc.nl/research/open-science/codecheck/}{\color{blue}{CODECHECK}}, "an OS initiative for the independent execution of computations underlying research articles to improve reproducibility" [@N_st_2021].
+Researchers also need consulting when it comes to copyright. However, this kind of support requires legal experts.
+
+\textbf{6. Require supplemental materials statement in research articles}
+
+Researchers should add a statement to their articles describing where the underlying materials can be found and, if applicable, which concrete and legitimate reasons apply for hiding materials. It might also be possible to use an embargo if justified appropriately. 
+
+\textbf{7. Support a community around OS}
+
+OS is a dynamic area and being up to date can be challenging. 
+Consequently, a space is needed to receive updates, ask questions, and discuss concerns. 
+An Open Science Community provides a suitable environment to cover these needs.
+However, coordinating such a community is time-consuming and often voluntary work.
+Thus, the faculty should provide financial resources for the coordination of the community.  
+
+\textbf{8. Create flagship use cases}
+
+Practices like Open Data and Open Reproducible Research should not be done just for the sake of openness.
+It is crucial to highlight the benefit, i.e, transparency, verifiability, and reusability.
+Since these benefits are often anecdotal, it is important to create use cases out of existing and upcoming publications.
+These use cases should show what is possible if all materials are there.
