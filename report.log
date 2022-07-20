@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.8.11)  20 JUL 2022 13:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.8.11)  20 JUL 2022 15:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**questionnaire.tex
-(./questionnaire.tex
+**report.tex
+(./report.tex
 LaTeX2e <2021-06-01> patch level 1
 L3 programming layer <2021-07-12> (./copernicus.cls
 Document Class: copernicus 2021/01/12 9.25 Copernicus papers
@@ -2861,8 +2861,8 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 File: l3backend-pdftex.def 2021-08-04 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count313
 \l__pdf_internal_box=\box63
-) (./questionnaire.aux)
-\openout1 = `questionnaire.aux'.
+) (./report.aux)
+\openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
 LaTeX Font Info:    ... okay on input line 75.
@@ -2932,75 +2932,74 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) [1
 
 {c:/texlive/2021/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2]
-<questionnaire_files/figure-latex/unnamed-chunk-5-1.pdf, id=54, 469.755pt x 325
-.215pt>
-File: questionnaire_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type
- pdf)
-<use questionnaire_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: questionnaire_files/figure-latex/unnamed-chunk-5-1.pdf
-  used on input line 306.
+<report_files/figure-latex/unnamed-chunk-5-1.pdf, id=54, 469.755pt x 325.215pt>
+
+File: report_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
+<use report_files/figure-latex/unnamed-chunk-5-1.pdf>
+Package pdftex.def Info: report_files/figure-latex/unnamed-chunk-5-1.pdf  used 
+on input line 308.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 
-Overfull \hbox (0.93695pt too wide) in paragraph at lines 326--326
+Overfull \hbox (0.93695pt too wide) in paragraph at lines 328--328
 []|\T1/ptm/b/n/9 EOS| 
  []
 
 
-Overfull \hbox (0.92805pt too wide) in paragraph at lines 326--326
+Overfull \hbox (0.92805pt too wide) in paragraph at lines 328--328
 []|\T1/ptm/b/n/9 NRS| 
  []
 
 
-Overfull \hbox (3.925pt too wide) in paragraph at lines 326--326
+Overfull \hbox (3.925pt too wide) in paragraph at lines 328--328
 []|\T1/ptm/b/n/9 PGM| 
  []
 
 
-Overfull \hbox (3.43008pt too wide) in paragraph at lines 326--327
+Overfull \hbox (3.43008pt too wide) in paragraph at lines 328--329
 []|\T1/ptm/b/n/9 WRS| 
  []
 
-[3] [4 <./questionnaire_files/figure-latex/unnamed-chunk-5-1.pdf>] [5] [6] [7]
-Overfull \hbox (0.93695pt too wide) in paragraph at lines 596--596
+[3] [4 <./report_files/figure-latex/unnamed-chunk-5-1.pdf>] [5] [6] [7]
+Overfull \hbox (0.93695pt too wide) in paragraph at lines 598--598
 []|\T1/ptm/b/n/9 EOS| 
  []
 
 
-Overfull \hbox (0.92805pt too wide) in paragraph at lines 596--596
+Overfull \hbox (0.92805pt too wide) in paragraph at lines 598--598
 []|\T1/ptm/b/n/9 NRS| 
  []
 
 
-Overfull \hbox (3.925pt too wide) in paragraph at lines 596--596
+Overfull \hbox (3.925pt too wide) in paragraph at lines 598--598
 []|\T1/ptm/b/n/9 PGM| 
  []
 
 
-Overfull \hbox (3.43008pt too wide) in paragraph at lines 596--597
+Overfull \hbox (3.43008pt too wide) in paragraph at lines 598--599
 []|\T1/ptm/b/n/9 WRS| 
  []
 
-[8] [9] [10] [11] (./questionnaire.bbl [12]
-Underfull \hbox (badness 10000) in paragraph at lines 32--34
+[8] [9] [10] [11] (./report.bbl [12]
+Underfull \hbox (badness 10000) in paragraph at lines 28--30
 []\T1/ptm/m/n/9 Kreiner, G.: The Slav-ery of the h-index^^VMeasuring the Un-mea
 -sur-able, Fron-tiers in Hu-man Neu-ro-science, 10,
  []
 
-) [13] (./questionnaire.aux) ) 
+) [13] (./report.aux) ) 
 Here is how much of TeX's memory you used:
  16079 strings out of 478542
- 217760 string characters out of 5854402
- 605778 words of memory out of 5000000
+ 217606 string characters out of 5854402
+ 605767 words of memory out of 5000000
  33710 multiletter control sequences out of 15000+600000
  447727 words of font info for 88 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,10n,80p,328b,420s stack positions out of 5000i,500n,10000p,200000b,80000s
-{c:/texlive/2021/texmf-dist/fonts/enc/dvips/base/
-8r.enc}<c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive
-/2021/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2021/texmf-dist/
-fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/ti
-mes/utmri8a.pfb>
-Output written on questionnaire.pdf (13 pages, 107158 bytes).
+ 75i,10n,80p,321b,420s stack positions out of 5000i,500n,10000p,200000b,80000s
+{c:/texlive/2021/texmf-dist/fonts/enc/dvips/base/8r.enc}
+<c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2021/t
+exmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2021/texmf-dist/fonts/t
+ype1/urw/times/utmr8a.pfb><c:/texlive/2021/texmf-dist/fonts/type1/urw/times/utm
+ri8a.pfb>
+Output written on report.pdf (13 pages, 106429 bytes).
 PDF statistics:
  193 PDF objects out of 1000 (max. 8388607)
  166 compressed objects within 2 object streams
